@@ -4,6 +4,8 @@ require_once __DIR__ . '/../database/connection.php'; // $connection
 
 session_start();
 
+$page = $_SESSION['level'] == 'PETUGAS' ? 'petugas' : 'pemilik';
+
 $nama = $_POST['nama'];
 $kontak = $_POST['kontak'];
 $password = $_POST['password'];
@@ -15,8 +17,8 @@ $hash_password = password_hash($password, PASSWORD_DEFAULT);
 $query = mysqli_query($connection, "UPDATE akun set nama = '$nama', kontak = '$kontak', password = '$password', alamat = '$alamat', jenis_kelamin = '$jenis_kelamin', password = '$hash_password' WHERE id = $id");
 
 if (!$query) {
-	header('Location: ./pemilik.php?page=akun/pengaturan&status=error');
+	header("Location: ./{$page}.php?page=akun/pengaturan&status=error");
 	exit();
 }
 
-header('Location: ./pemilik.php?page=akun/pengaturan&status=success');
+header("Location: ./{$page}.php?page=akun/pengaturan&status=success");
